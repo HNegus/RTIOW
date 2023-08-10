@@ -6,12 +6,12 @@
 class Ray {
 
 public:
+
     Ray() {}
     Ray(const Point3& orig, const Vec3 dir) : origin{orig}, direction{dir} {}
-
     Point3 At(real_type t)
     {
-        return origin + t * direction;
+        return origin + t*direction;
     }
 
     Point3 origin;

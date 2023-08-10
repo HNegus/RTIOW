@@ -24,7 +24,8 @@ void Image::ToPPM()
 
     for (size_t i = 0; i < height; i++) {
         for (size_t j = 0; j < width; j++) {
-            std::cout << m_pixels[i][j] << std::endl;
+            std::cout << m_pixels[i][j] << " ";
         }
+        std::cout << std::endl;
     }
 }

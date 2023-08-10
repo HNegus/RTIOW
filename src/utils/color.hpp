@@ -5,7 +5,9 @@
 
 class Color : public Vec3 {
 public:
+    using Vec3::Vec3;
     using Vec3::operator=;
+    Color(Vec3&& v) : Vec3(v) {}
 };
 
 inline std::ostream& operator<<(std::ostream &out, Color color)
