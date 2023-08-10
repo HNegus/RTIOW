@@ -6,8 +6,24 @@
 
 #include "utils/debug.hpp"
 
+bool HitSphere(const Ray& ray)
+{
+    Point3 position(0.0f, 0.0f, -5.0f);
+    Vec3 camera_position = ray.origin - position;
+    real_type a = ray.direction.Dot(ray.direction);
+    real_type b = (2 * ray.direction).Dot(camera_position);
+    real_type c = camera_position.Dot(camera_position) - 2.0f;
+
+    real_type D = std::sqrt(b*b - 4*a*c);
+
+    return ((-b + D) / 2*a) > 0 || ((-b - D) / 2*a) > 0;
+}
+
 Color RayColor(const Ray& ray)
 {
+    if (HitSphere(ray)) {
+        return Color(1.0f, 0.0f, 0.0f);
+    }
     Vec3 unit = ray.direction.Unit();
 
     real_type a = 0.5f*(unit.y + 1.0f);
