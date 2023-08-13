@@ -112,6 +112,37 @@ struct Vec3 {
         v /= Length();
         return v;
     }
+
+    static Vec3 Random()
+    {
+        return Vec3(RandomReal(), RandomReal(), RandomReal());
+    }
+
+    static Vec3 Random(real_type min, real_type max)
+    {
+        return Vec3(RandomNumber(min, max),
+                    RandomNumber(min, max),
+                    RandomNumber(min, max));
+    }
+
+    static Vec3 RandomUnit()
+    {
+        while (true) {
+            Vec3 v = Random();
+            if (v.Dot(v) < 1) {
+                return v.Unit();
+            }
+        }
+    }
+
+    static Vec3 RandomOnHemisphere(const Vec3& normal)
+    {
+        Vec3 unit = RandomUnit();
+        if (unit.Dot(normal) > 0) {
+            return unit;
+        }
+        return -unit;
+    }
 };
 
 inline std::ostream& operator<<(std::ostream &out, const Vec3 &v)

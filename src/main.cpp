@@ -19,7 +19,10 @@ int main(int, char**)
 
     CameraSpec camera_spec = { .aspect_ratio = 16.0 / 9.0,
         .focal_length = 1.0,
-        .image_width = 400 };
+        .image_width = 1080,
+        .samples_per_pixel = 100,
+        .max_bounces = 50,
+        };
 
     Camera camera(camera_spec);
     EntityList world;

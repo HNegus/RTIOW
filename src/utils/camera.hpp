@@ -11,6 +11,8 @@ struct CameraSpec {
     real_type focal_length = 0;
 
     uint32_t image_width = 0, image_height = 0;
+    uint32_t samples_per_pixel = 1;
+    uint32_t max_bounces = 1;
 
     Vec3 center{};
 };
@@ -20,10 +22,14 @@ public:
 
     CameraSpec spec;
 
-    Camera(const CameraSpec& specification);
+    Camera(const CameraSpec& specification) : spec{specification}
+    {
+        Bake();
+    };
     Camera() : Camera(CameraSpec{}) {};
 
     void Render(const EntityList& world);
+    void Bake();
 
 private:
     struct CameraDetails {
@@ -36,5 +42,7 @@ private:
     CameraDetails m_details;
     Image m_image;
 
-    Color RayColor(const Ray& ray, const EntityList& world);
+    Ray GetRay(int i, int j) const;
+    Vec3 GetSample() const;
+    Color RayColor(const Ray& ray, const EntityList& world, uint32_t depth);
 };

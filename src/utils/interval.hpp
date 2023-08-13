@@ -20,6 +20,18 @@ public:
         return min < x && x < max;
     }
 
+    inline real_type Clamp(real_type x) const
+    {
+        if (x < min) return min;
+        if (x > max) return max;
+        return x;
+    }
+
+    inline Vec3 Clamp(Vec3 v) const
+    {
+        return Vec3(Clamp(v.x), Clamp(v.y), Clamp(v.z));
+    }
+
     static const Interval empty;
     static const Interval universe;
 

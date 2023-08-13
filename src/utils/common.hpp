@@ -11,3 +11,7 @@ inline real_type constexpr DegToRad(real_type deg)
 {
     return deg * pi / 180.0;
 }
+
+real_type RandomReal();
+
+real_type RandomNumber(real_type min, real_type max);
