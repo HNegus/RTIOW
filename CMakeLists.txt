@@ -12,7 +12,14 @@ add_executable(raytrace ${SOURCES})
 
 target_include_directories(raytrace PRIVATE src)
 
-target_compile_options(raytrace PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_options(raytrace PRIVATE
+    -Wall -Wextra -Wpedantic
+    -fsanitize=address
+    )
+
+target_link_options(raytrace PRIVATE
+    -fsanitize=address
+    )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
