@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "debug.hpp"
-#include "types.hpp"
+#include "common.hpp"
 
 struct Vec3;
 using Point3 = Vec3;
