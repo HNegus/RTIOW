@@ -7,12 +7,12 @@
 #include "image.hpp"
 
 struct CameraSpec {
-    real_type aspect_ratio = 0;
-    real_type focal_length = 0;
+    real_type aspect_ratio = 16 / 9.0;
+    real_type focal_length = 1.0;
 
-    uint32_t image_width = 0, image_height = 0;
-    uint32_t samples_per_pixel = 1;
-    uint32_t max_bounces = 1;
+    uint32_t image_width = 400, image_height = 0;
+    uint32_t samples_per_pixel = 10;
+    uint32_t max_bounces = 10;
 
     Vec3 center{};
 };
@@ -21,7 +21,6 @@ class Camera {
 public:
 
     CameraSpec spec;
-    Image image;
 
     Camera(const CameraSpec& specification) : spec{specification}
     {
@@ -29,10 +28,14 @@ public:
     };
     Camera() : Camera(CameraSpec{}) {};
 
+
+    inline void SetGammaCorrection(bool b) { m_image.gamma_correction_enabled = b; }
     void Render(const EntityList& world);
     void Bake();
 
 private:
+    Image m_image;
+
     struct CameraDetails {
         real_type viewport_width = 0, viewport_height = 0;
         Vec3 pixel_dx = 0, pixel_dy = 0;

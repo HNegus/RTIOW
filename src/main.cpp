@@ -10,22 +10,24 @@
 
 #include "base/camera.hpp"
 
+#include "materials/lambertian.hpp"
+#include "materials/material.hpp"
+#include "materials/metal.hpp"
+
+#include "scenes/first_sphere.hpp"
+#include "scenes/first_materials.hpp"
+#include "scenes/scene.hpp"
+
 int main(int, char**)
 {
 
-    CameraSpec camera_spec = { .aspect_ratio = 16.0 / 9.0,
-        .focal_length = 1.0,
-        .image_width = 400,
-        .samples_per_pixel = 50,
-        .max_bounces = 10,
-        };
-
-    Camera camera(camera_spec);
-    camera.image.gamma_correction_enabled = true;
-
-    EntityList world;
-    world.Add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
-    world.Add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100));
-
-    camera.Render(world);
+    // CameraSpec camera_spec = { .aspect_ratio = 16.0 / 9.0,
+    //     .focal_length = 1.0,
+    //     .image_width = 400,
+    //     .samples_per_pixel = 50,
+    //     .max_bounces = 10,
+    //     };
+    // std::cout <<
+    FirstMaterials scene;
+    scene.Show();
 }

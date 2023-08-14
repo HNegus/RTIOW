@@ -9,6 +9,21 @@
 struct Vec3;
 using Point3 = Vec3;
 
+std::ostream& operator<<(std::ostream& out, const Vec3& v);
+Vec3 operator+(const Vec3& u, const Vec3& v);
+Vec3 operator-(const Vec3& u, const Vec3& v);
+Vec3 operator*(const Vec3& u, const Vec3& v);
+Vec3 operator/(const Vec3& u, const Vec3& v);
+Vec3 operator+(const Vec3& v, real_type r);
+Vec3 operator+(real_type r, const Vec3& v);
+Vec3 operator-(const Vec3& v, real_type r);
+Vec3 operator-(real_type r, const Vec3& v);
+Vec3 operator*(const Vec3& v, real_type r);
+Vec3 operator*(real_type r, const Vec3& v);
+Vec3 operator/(const Vec3& v, real_type r);
+Vec3 operator/(real_type r, const Vec3& v);
+Vec3 sqrt(Vec3 v);
+
 // disable anonymous struct warning
 #ifdef RTA_COMPILER_GCC
     #pragma GCC diagnostic push
@@ -111,6 +126,17 @@ struct Vec3 {
         Vec3 v(*this);
         v /= Length();
         return v;
+    }
+
+    bool NearZero() const
+    {
+        real_type e = 1e-8;
+        return (x < e) && (y < e) && (z < e);
+    }
+
+    Vec3 Reflect(const Vec3& n) const
+    {
+        return (*this) - 2 * Dot(n) * n;
     }
 
     static Vec3 Random()
@@ -224,3 +250,18 @@ inline Vec3 sqrt(Vec3 v)
 #elif defined(RTA_COMPILER_CLANG)
     #pragma warning(pop)
 #endif
+
+// std::ostream& operator<<(std::ostream &out, const Vec3 &v);
+// Vec3 operator+(const Vec3& u, const Vec3& v);
+// Vec3 operator-(const Vec3& u, const Vec3& v);
+// Vec3 operator*(const Vec3& u, const Vec3& v);
+// Vec3 operator/(const Vec3 &u, const Vec3 &v);
+// Vec3 operator+(const Vec3 &v, Vec3::value_type r);
+// Vec3 operator+(Vec3::value_type r, const Vec3 &v);
+// Vec3 operator-(const Vec3 &v, Vec3::value_type r);
+// Vec3 operator-(Vec3::value_type r, const Vec3 &v);
+// Vec3 operator*(const Vec3& v, Vec3::value_type r);
+// Vec3 operator*(Vec3::value_type r, const Vec3 &v);
+// Vec3 operator/(const Vec3 &v, Vec3::value_type r);
+// Vec3 operator/(Vec3::value_type r, const Vec3 &v);
+// Vec3 sqrt(Vec3 v);

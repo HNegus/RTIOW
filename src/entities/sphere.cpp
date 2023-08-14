@@ -31,5 +31,7 @@ bool Sphere::Hit(const Ray& ray, Interval interval, HitRecord& record) const
     Vec3 normal = (record.position - m_center) / m_radius;
     record.SetFaceNormal(ray, normal);
 
+    record.material = m_material;
+
     return true;
 }
