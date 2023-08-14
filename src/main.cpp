@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include "utils/image.hpp"
-
-#include "utils/ray.hpp"
+#include "base/image.hpp"
 
 #include "utils/debug.hpp"
 
@@ -10,9 +8,7 @@
 
 #include "entities/entity_list.hpp"
 
-#include "utils/interval.hpp"
-
-#include "utils/camera.hpp"
+#include "base/camera.hpp"
 
 int main(int, char**)
 {

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "color.hpp"
+#include "utils/color.hpp"
 
 class Image {
 

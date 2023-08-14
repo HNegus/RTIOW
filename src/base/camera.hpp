@@ -1,9 +1,9 @@
 #pragma once
 
-#include "common.hpp"
+#include "utils/common.hpp"
 
 #include "entities/entity_list.hpp"
-#include "color.hpp"
+#include "utils/color.hpp"
 #include "image.hpp"
 
 struct CameraSpec {
