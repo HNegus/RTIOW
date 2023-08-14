@@ -8,10 +8,10 @@ void Camera::Bake()
     spec.image_height = static_cast<int>(spec.image_width / spec.aspect_ratio);
     spec.image_height = spec.image_height < 1 ? 1 : spec.image_height;
 
-    m_image.width = spec.image_width;
-    m_image.height = spec.image_height;
-    m_image.samples_per_pixel = spec.samples_per_pixel;
-    m_image.Resize();
+    image.width = spec.image_width;
+    image.height = spec.image_height;
+    image.samples_per_pixel = spec.samples_per_pixel;
+    image.Resize();
 
     m_details.viewport_height = 2.0;
     m_details.viewport_width = m_details.viewport_height;
@@ -36,12 +36,12 @@ void Camera::Render(const EntityList& world)
         for (size_t j = 0; j < spec.image_height; j++) {
             for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
                 Ray ray = GetRay(i, j);
-                m_image[j][i] += RayColor(ray, world, spec.max_bounces);
+                image[j][i] += RayColor(ray, world, spec.max_bounces);
             }
         }
     }
 
-    m_image.ToPPM();
+    image.ToPPM();
 }
 
 Ray Camera::GetRay(int i, int j) const
@@ -71,7 +71,7 @@ Color Camera::RayColor(const Ray& ray, const EntityList& world, uint32_t depth)
     HitRecord record {};
     Interval interval(0.001, infinity);
     if (world.Hit(ray, interval, record)) {
-        Vec3 bounce_direction = Vec3::RandomOnHemisphere(record.normal);
+        Vec3 bounce_direction = LambertianDiffuseDirection(record);
         return 0.5 * RayColor(Ray(record.position, bounce_direction), world, depth-1);
     }
 
@@ -79,4 +79,14 @@ Color Camera::RayColor(const Ray& ray, const EntityList& world, uint32_t depth)
 
     real_type a = 0.5f * (unit.y + 1.0f);
     return (1.0f - a) * Color(1.0f) + a * Color(0.5f, 0.7f, 1.0f);
+}
+
+Vec3 Camera::SimpleDiffuseDirection(const HitRecord& record) const
+{
+    return Vec3::RandomOnHemisphere(record.normal);
+}
+
+Vec3 Camera::LambertianDiffuseDirection(const HitRecord& record) const
+{
+    return record.normal + Vec3::RandomUnit();;
 }

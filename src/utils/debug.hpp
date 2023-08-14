@@ -1,5 +1,7 @@
 #include <cassert>
 
+#include <stdexcept>
+
 #if defined(__GNUC__)
     #define RTA_COMPILER_GCC
     #include <signal.h>

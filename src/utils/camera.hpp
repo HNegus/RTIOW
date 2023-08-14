@@ -21,6 +21,7 @@ class Camera {
 public:
 
     CameraSpec spec;
+    Image image;
 
     Camera(const CameraSpec& specification) : spec{specification}
     {
@@ -40,9 +41,14 @@ private:
     };
 
     CameraDetails m_details;
-    Image m_image;
 
     Ray GetRay(int i, int j) const;
     Vec3 GetSample() const;
     Color RayColor(const Ray& ray, const EntityList& world, uint32_t depth);
+
+    Vec3 SimpleDiffuseDirection(const HitRecord& record) const;
+    Vec3 LambertianDiffuseDirection(const HitRecord& record) const;
+
+
+
 };

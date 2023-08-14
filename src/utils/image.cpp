@@ -24,6 +24,9 @@ void Image::ToPPM()
     for (size_t i = 0; i < height; i++) {
         for (size_t j = 0; j < width; j++) {
             Color c = intensity.Clamp(m_pixels[i][j] / samples_per_pixel);
+            if (gamma_correction_enabled) {
+                c = GammaCorrect(c);
+            }
             std::cout << c << " ";
         }
         std::cout << std::endl;

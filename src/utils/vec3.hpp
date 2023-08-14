@@ -48,7 +48,7 @@ struct Vec3 {
                 return v[i];
         }
 
-        assert(false && "Vec3 index out of bounds");
+        throw std::out_of_range("Vec3 index out of bounds");
     }
     value_type& operator[](int i) {
         switch (i)  {
@@ -58,7 +58,7 @@ struct Vec3 {
                 return v[i];
         }
 
-        assert(false && "Vec3 index out of bounds");
+        throw std::out_of_range("Vec3 index out of bounds");
      }
 
     Vec3& operator+=(const Vec3& v)
@@ -208,6 +208,12 @@ inline Vec3 operator/(const Vec3 &v, Vec3::value_type r)
 inline Vec3 operator/(Vec3::value_type r, const Vec3 &v)
 {
     return v / r;
+}
+
+inline Vec3 sqrt(Vec3 v)
+{
+    using std::sqrt;
+    return Vec3(sqrt(v.x), sqrt(v.y), sqrt(v.z));
 }
 
 // enable anonymous struct warning
