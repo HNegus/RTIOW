@@ -27,7 +27,7 @@ int main(int, char**)
     //     .samples_per_pixel = 50,
     //     .max_bounces = 10,
     //     };
-    // std::cout <<
+
     FirstMaterials scene;
     scene.Show();
 }

@@ -20,8 +20,8 @@ public:
         m_world.Add(std::make_shared<Sphere>(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
         m_world.Add(std::make_shared<Sphere>(Point3(1.0, 0.0, -1.0), 0.5, material_right));
 
-        m_camera.spec.image_width = 4069;
-        m_camera.spec.samples_per_pixel = 200;
+        m_camera.spec.image_width = 1080;
+        m_camera.spec.samples_per_pixel = 100;
         m_camera.spec.max_bounces = 50;
         m_camera.Bake();
     }
