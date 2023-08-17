@@ -139,6 +139,18 @@ struct Vec3 {
         return (*this) - 2 * Dot(n) * n;
     }
 
+    // factor is η/η
+    Vec3 Refract(const Vec3& n, real_type factor) const
+    {
+        const Vec3& uv = this->Unit();
+        const Vec3& nn = n.Unit();
+        real_type cos_theta = fmin((-uv).Dot(nn), 1.0);
+        Vec3 out_perpendicular = factor * (uv + (cos_theta*n));
+        real_type length_squared = out_perpendicular.Dot(out_perpendicular);
+        Vec3 out_parallel = -sqrt(fabs(1.0 - length_squared)) * nn;
+        return out_perpendicular + out_parallel;
+    }
+
     static Vec3 Random()
     {
         return Vec3(RandomReal(), RandomReal(), RandomReal());

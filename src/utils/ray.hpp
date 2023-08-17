@@ -13,6 +13,10 @@ public:
     {
         return origin + t*direction;
     }
+    Vec3 AsUnit() const
+    {
+        return (direction - origin).Unit();
+    }
 
     Point3 origin{};
     Vec3 direction{};

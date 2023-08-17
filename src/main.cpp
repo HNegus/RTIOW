@@ -18,22 +18,18 @@
 #include "scenes/first_materials.hpp"
 #include "scenes/first_fov.hpp"
 #include "scenes/first_free_cam.hpp"
-#include "scenes/scene.hpp"
+#include "scenes/first_fuzz.hpp"
+#include "scenes/first_dielectric.hpp"
 
 int main(int, char**)
 {
-
-    // CameraSpec camera_spec = { .aspect_ratio = 16.0 / 9.0,
-    //     .focal_length = 1.0,
-    //     .image_width = 400,
-    //     .samples_per_pixel = 50,
-    //     .max_bounces = 10,
-    //     };
-
     // FirstSphere scene;
     // FirstMaterials scene;
     // FirstFOV scene;
-    FirstFreeCam scene;
+    // FirstFreeCam scene;
+    // FirstFuzz scene;
+    FirstDielectric scene;
+
 
     scene.Show();
 }
