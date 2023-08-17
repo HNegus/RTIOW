@@ -10,11 +10,7 @@ void Camera::Bake()
     spec.image_height = static_cast<int>(spec.image_width / spec.aspect_ratio);
     spec.image_height = spec.image_height < 1 ? 1 : spec.image_height;
 
-#define POSITIONABLE
-#ifdef POSITIONABLE
-    spec.focal_length = (spec.position - spec.lookat).Length();
-    spec.position = spec.position;
-#endif
+    // spec.focal_length = (spec.position - spec.lookat).Length();
 
     m_image.width = spec.image_width;
     m_image.height = spec.image_height;
@@ -22,37 +18,28 @@ void Camera::Bake()
     m_image.Resize();
 
     real_type h = tan(DegToRad(spec.vfov)/2);
-    m_details.viewport_height = 2.0 * h * spec.focal_length;
+    m_details.viewport_height = 2.0 * h * spec.focus_dist;
     m_details.viewport_width = m_details.viewport_height;
     m_details.viewport_width *= (static_cast<real_type>(spec.image_width) / spec.image_height);
 
-#ifdef POSITIONABLE
     m_details.w = (spec.position - spec.lookat).Unit();
     m_details.u = spec.up.Cross(m_details.w).Unit();
     m_details.v = m_details.w.Cross(m_details.u);
 
     m_details.viewport_x = m_details.viewport_width * m_details.u;
     m_details.viewport_y = m_details.viewport_height * -m_details.v;
-#else
-    m_details.viewport_x = Vec3(m_details.viewport_width, 0, 0);
-    m_details.viewport_y = Vec3(0, -m_details.viewport_height, 0);
-#endif
 
     m_details.pixel_dx = m_details.viewport_x / spec.image_width;
     m_details.pixel_dy = m_details.viewport_y / spec.image_height;
 
-#ifdef POSITIONABLE
-    m_details.viewport_upper_left = spec.position - (spec.focal_length * m_details.w)
+    m_details.viewport_upper_left = spec.position - (spec.focus_dist * m_details.w)
         - m_details.viewport_x / 2 - m_details.viewport_y / 2;
-
-#else
-    m_details.viewport_upper_left = spec.position - Vec3(0, 0, spec.focal_length)
-        - m_details.viewport_x / 2 - m_details.viewport_y / 2;
-
-#endif
     m_details.pixel00_loc = m_details.viewport_upper_left
         + 0.5 * (m_details.pixel_dx + m_details.pixel_dy);
 
+    real_type defocus_radius = spec.focus_dist * tan(DegToRad(spec.defocus_angle / 2));
+    m_details.defocus_disk_u = m_details.u * defocus_radius;
+    m_details.defocus_disk_v = m_details.v * defocus_radius;
     return;
 }
 
@@ -77,8 +64,9 @@ Ray Camera::GetRay(int i, int j) const
                         + (i * m_details.pixel_dx)
                         + (j * m_details.pixel_dy);
     Vec3 sample_vector = pixel_center + GetSample();
-    Vec3 ray_direction = sample_vector - spec.position;
-    return Ray(spec.position, ray_direction);
+    Vec3 ray_origin = (spec.defocus_angle <= 0) ? spec.position : DefocusDiskSample();
+    Vec3 ray_direction = sample_vector - ray_origin;
+    return Ray(ray_origin, ray_direction);
 }
 
 Vec3 Camera::GetSample() const
@@ -86,6 +74,12 @@ Vec3 Camera::GetSample() const
     real_type px = -0.5 + RandomReal();
     real_type py = -0.5 + RandomReal();
     return (px * m_details.pixel_dx) + (py * m_details.pixel_dy);
+}
+
+Point3 Camera::DefocusDiskSample() const
+{
+    Point3 p = Vec3::RandomInUnitDisk();
+    return spec.position + (p.x * m_details.defocus_disk_u) + (p.y * m_details.defocus_disk_v);
 }
 
 Color Camera::RayColor(const Ray& ray, const EntityList& world, uint32_t depth)

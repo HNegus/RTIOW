@@ -55,6 +55,7 @@ private:
 
     Ray GetRay(int i, int j) const;
     Vec3 GetSample() const;
+    Point3 DefocusDiskSample() const;
     Color RayColor(const Ray& ray, const EntityList& world, uint32_t depth);
 
     Vec3 SimpleDiffuseDirection(const HitRecord& record) const;
