@@ -22,6 +22,7 @@
 #include "scenes/first_dielectric.hpp"
 #include "scenes/correct_dielectric.hpp"
 #include "scenes/first_dof.hpp"
+#include "scenes/book1_final.hpp"
 
 int main(int, char**)
 {
@@ -32,7 +33,8 @@ int main(int, char**)
     // FirstFuzz scene;
     // FirstDielectric scene;
     // CorrectDielectric scene;
-    FirstDOF scene;
+    // FirstDOF scene;
+    Book1Final scene;
 
     scene.Show();
 }
