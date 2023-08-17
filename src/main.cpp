@@ -20,6 +20,7 @@
 #include "scenes/first_free_cam.hpp"
 #include "scenes/first_fuzz.hpp"
 #include "scenes/first_dielectric.hpp"
+#include "scenes/correct_dielectric.hpp"
 
 int main(int, char**)
 {
@@ -28,8 +29,8 @@ int main(int, char**)
     // FirstFOV scene;
     // FirstFreeCam scene;
     // FirstFuzz scene;
-    FirstDielectric scene;
-
+    // FirstDielectric scene;
+    CorrectDielectric scene;
 
     scene.Show();
 }

@@ -18,6 +18,9 @@ struct CameraSpec {
     Point3 position = Point3(0.0, 0.0, 1.0);
     Point3 lookat = Point3(0.0);
     Vec3 up = Vec3(0.0, 1.0, 0.0);
+
+    real_type defocus_angle = 0;
+    real_type focus_dist = 10;
 };
 
 class Camera {
@@ -45,6 +48,7 @@ private:
         Vec3 viewport_x {}, viewport_y {};
         Vec3 viewport_upper_left {}, pixel00_loc {};
         Vec3 u{}, v{}, w{};
+        Vec3 defocus_disk_u{}, defocus_disk_v{};
     };
 
     CameraDetails m_details;

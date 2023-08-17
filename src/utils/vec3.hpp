@@ -181,6 +181,16 @@ struct Vec3 {
         }
         return -unit;
     }
+
+    static Vec3 RandomInUnitDisk()
+    {
+        while (true) {
+            Vec3 p = Vec3(RandomNumber(-1, 1), RandomNumber(-1, 1), 0);
+            if (p.Dot(p) < 1) {
+                return p;
+            }
+        }
+    }
 };
 
 inline std::ostream& operator<<(std::ostream &out, const Vec3 &v)

@@ -15,4 +15,7 @@ struct Dielectric : public Material {
 
     virtual bool Scatter(const Ray& in, const HitRecord& record,
         Color& attenuation, Ray& out) const override;
+
+private:
+    static real_type Reflectance(real_type cosine, real_type ref_idx);
 };
