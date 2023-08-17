@@ -16,6 +16,8 @@
 
 #include "scenes/first_sphere.hpp"
 #include "scenes/first_materials.hpp"
+#include "scenes/first_fov.hpp"
+#include "scenes/first_free_cam.hpp"
 #include "scenes/scene.hpp"
 
 int main(int, char**)
@@ -28,6 +30,10 @@ int main(int, char**)
     //     .max_bounces = 10,
     //     };
 
-    FirstMaterials scene;
+    // FirstSphere scene;
+    // FirstMaterials scene;
+    // FirstFOV scene;
+    FirstFreeCam scene;
+
     scene.Show();
 }

@@ -10,37 +10,62 @@ void Camera::Bake()
     spec.image_height = static_cast<int>(spec.image_width / spec.aspect_ratio);
     spec.image_height = spec.image_height < 1 ? 1 : spec.image_height;
 
+#define POSITIONABLE
+#ifdef POSITIONABLE
+    spec.focal_length = (spec.position - spec.lookat).Length();
+    spec.position = spec.position;
+#endif
+
     m_image.width = spec.image_width;
     m_image.height = spec.image_height;
     m_image.samples_per_pixel = spec.samples_per_pixel;
     m_image.Resize();
 
-    m_details.viewport_height = 2.0;
+    real_type h = tan(DegToRad(spec.vfov)/2);
+    m_details.viewport_height = 2.0 * h * spec.focal_length;
     m_details.viewport_width = m_details.viewport_height;
     m_details.viewport_width *= (static_cast<real_type>(spec.image_width) / spec.image_height);
 
+#ifdef POSITIONABLE
+    m_details.w = (spec.position - spec.lookat).Unit();
+    m_details.u = spec.up.Cross(m_details.w).Unit();
+    m_details.v = m_details.w.Cross(m_details.u);
+
+    m_details.viewport_x = m_details.viewport_width * m_details.u;
+    m_details.viewport_y = m_details.viewport_height * -m_details.v;
+#else
     m_details.viewport_x = Vec3(m_details.viewport_width, 0, 0);
     m_details.viewport_y = Vec3(0, -m_details.viewport_height, 0);
+#endif
 
     m_details.pixel_dx = m_details.viewport_x / spec.image_width;
     m_details.pixel_dy = m_details.viewport_y / spec.image_height;
 
-    m_details.viewport_upper_left = spec.center - Vec3(0, 0, spec.focal_length)
+#ifdef POSITIONABLE
+    m_details.viewport_upper_left = spec.position - (spec.focal_length * m_details.w)
         - m_details.viewport_x / 2 - m_details.viewport_y / 2;
+
+#else
+    m_details.viewport_upper_left = spec.position - Vec3(0, 0, spec.focal_length)
+        - m_details.viewport_x / 2 - m_details.viewport_y / 2;
+
+#endif
     m_details.pixel00_loc = m_details.viewport_upper_left
         + 0.5 * (m_details.pixel_dx + m_details.pixel_dy);
+
+    return;
 }
 
 void Camera::Render(const EntityList& world)
 {
-    for (size_t i = 0; i < spec.image_width; i++) {
-        std::clog << "Scanlines remaining: " << spec.image_width - i << std::endl;
-        for (size_t j = 0; j < spec.image_height; j++) {
+    for (size_t j = 0; j < spec.image_height; j++) {
+        std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;
+        for (size_t i = 0; i < spec.image_width; i++) {
             for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
                 Ray ray = GetRay(i, j);
                 m_image[j][i] += RayColor(ray, world, spec.max_bounces);
+                }
             }
-        }
     }
 
     m_image.ToPPM();
@@ -52,8 +77,8 @@ Ray Camera::GetRay(int i, int j) const
                         + (i * m_details.pixel_dx)
                         + (j * m_details.pixel_dy);
     Vec3 sample_vector = pixel_center + GetSample();
-    Vec3 ray_direction = sample_vector - spec.center;
-    return Ray(spec.center, ray_direction);
+    Vec3 ray_direction = sample_vector - spec.position;
+    return Ray(spec.position, ray_direction);
 }
 
 Vec3 Camera::GetSample() const

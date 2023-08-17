@@ -9,12 +9,15 @@
 struct CameraSpec {
     real_type aspect_ratio = 16 / 9.0;
     real_type focal_length = 1.0;
+    real_type vfov = 90.0;
 
     uint32_t image_width = 400, image_height = 0;
     uint32_t samples_per_pixel = 10;
     uint32_t max_bounces = 10;
 
-    Vec3 center{};
+    Point3 position = Point3(0.0, 0.0, 1.0);
+    Point3 lookat = Point3(0.0);
+    Vec3 up = Vec3(0.0, 1.0, 0.0);
 };
 
 class Camera {
@@ -41,6 +44,7 @@ private:
         Vec3 pixel_dx = 0, pixel_dy = 0;
         Vec3 viewport_x {}, viewport_y {};
         Vec3 viewport_upper_left {}, pixel00_loc {};
+        Vec3 u{}, v{}, w{};
     };
 
     CameraDetails m_details;
