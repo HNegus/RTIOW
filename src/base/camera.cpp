@@ -65,9 +65,10 @@ void Camera::Render(const EntityList& world)
 #else
     std::vector<int> rowidx(m_image.height - 1);
     std::iota(rowidx.begin(), rowidx.end(), 1);
+    std::atomic<int> done{0};
 
     std::for_each(std::execution::par, rowidx.begin(), rowidx.end(), [&](int j) {
-        std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;
+        std::clog << "Scanlines remaining: " << spec.image_height - done.fetch_add(1) << std::endl;
         for (uint32_t i = 0; i < spec.image_width; i++) {
             for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
                 Ray ray = GetRay(i, j);
