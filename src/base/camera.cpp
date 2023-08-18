@@ -2,6 +2,12 @@
 
 #include "materials/material.hpp"
 
+#include <algorithm>
+#include <functional>
+#include <atomic>
+#include <execution>
+#include <numeric>
+
 void Camera::Bake()
 {
     // Setup image
@@ -45,6 +51,8 @@ void Camera::Bake()
 
 void Camera::Render(const EntityList& world)
 {
+// #define THREADS
+#ifndef THREADS
     for (uint32_t j = 0; j < spec.image_height; j++) {
         std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;
         for (uint32_t i = 0; i < spec.image_width; i++) {
@@ -54,7 +62,20 @@ void Camera::Render(const EntityList& world)
             }
         }
     }
+#else
+    std::vector<int> rowidx(m_image.height - 1);
+    std::iota(rowidx.begin(), rowidx.end(), 1);
 
+    std::for_each(std::execution::par, rowidx.begin(), rowidx.end(), [&](int j) {
+        std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;
+        for (uint32_t i = 0; i < spec.image_width; i++) {
+            for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
+                Ray ray = GetRay(i, j);
+                m_image[j][i] += RayColor(ray, world, spec.max_bounces);
+            }
+        }
+    });
+#endif
     m_image.ToPPM();
 }
 
@@ -82,31 +103,41 @@ Point3 Camera::DefocusDiskSample() const
     return spec.position + (p.x * m_details.defocus_disk_u) + (p.y * m_details.defocus_disk_v);
 }
 
-Color Camera::RayColor(const Ray& ray, const EntityList& world, uint32_t depth)
+Color Camera::RayColor(Ray ray, const EntityList& world, uint32_t depth)
 {
-    // Max_bounces reached.
-    if (depth <= 0) {
-        return Color(0);
-    }
 
+
+    Color final_color(1.0);
+    Color attenuation{};
     HitRecord record {};
     Interval interval(0.001f, infinity);
+    Ray scattered{};
 
-    if (world.ClosestHit(ray, interval, record)) {
-        Color attenuation{};
-        Ray scattered{};
-        if (record.material->Scatter(ray, record, attenuation, scattered)) {
-            return attenuation * RayColor(scattered, world, depth - 1);
-        }
-        return Color(0);
-
+    // Max_bounces reached.
+    if (depth == 0) {
+        return final_color;
     }
 
-    // Return sky color
-    Vec3 unit = ray.direction.Unit();
-    real_type a = 0.5f * (unit.y + 1.0f);
+    while (depth > 0) {
+        depth -= 1;
 
-    return (1.0f - a) * Color(1.0f) + a * Color(0.5f, 0.7f, 1.0f);
+        if (world.ClosestHit(ray, interval, record)) {
+            if (record.material->Scatter(ray, record, attenuation, scattered)) {
+                final_color *= attenuation;
+                ray = scattered;
+                continue;
+            }
+            return Color(0.0f);
+        }
+
+        // Return sky color
+        Vec3 unit = ray.direction.Unit();
+        real_type a = 0.5f * (unit.y + 1.0f);
+
+        Color sky_color = (1.0f - a) * Color(1.0f) + a * Color(0.5f, 0.7f, 1.0f);
+        return final_color * sky_color;
+    }
+    return final_color;
 }
 
 Vec3 Camera::SimpleDiffuseDirection(const HitRecord& record) const

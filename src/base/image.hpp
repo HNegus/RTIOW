@@ -4,9 +4,13 @@
 #include <vector>
 #include "utils/color.hpp"
 
+class Camera;
+
 class Image {
 
 public:
+    friend Camera;
+
     uint32_t width = 0, height = 0;
     uint32_t samples_per_pixel = 1;
     bool gamma_correction_enabled = false;

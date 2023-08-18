@@ -13,6 +13,7 @@ struct CameraSpec {
 
     uint32_t image_width = 400, image_height = 0;
     uint32_t samples_per_pixel = 10;
+    // actually is the maximum amount of bounces - 1
     uint32_t max_bounces = 10;
 
     Point3 position = Point3(0.0, 0.0, 1.0);
@@ -56,8 +57,7 @@ private:
     Ray GetRay(uint32_t i, uint32_t j) const;
     Vec3 GetSample() const;
     Point3 DefocusDiskSample() const;
-    Color RayColor(const Ray& ray, const EntityList& world, uint32_t depth);
-
+    Color RayColor(Ray ray, const EntityList& world, uint32_t depth);
     Vec3 SimpleDiffuseDirection(const HitRecord& record) const;
     Vec3 LambertianDiffuseDirection(const HitRecord& record) const;
 

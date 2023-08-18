@@ -90,6 +90,14 @@ struct Vec3 {
         return *this;
     }
 
+    Vec3& operator*=(const Vec3& v)
+    {
+        x *= v.x;
+        y *= v.y;
+        z *= v.z;
+        return *this;
+    }
+
     Vec3& operator*=(value_type r)
     {
         x *= r;

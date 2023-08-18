@@ -33,8 +33,8 @@ int main(int, char**)
     // FirstFuzz scene;
     // FirstDielectric scene;
     // CorrectDielectric scene;
-    // FirstDOF scene;
-    Book1Final scene;
+    FirstDOF scene;
+    // Book1Final scene;
 
     scene.Show();
 }
