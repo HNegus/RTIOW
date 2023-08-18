@@ -4,7 +4,7 @@
 
 real_type RandomReal()
 {
-    return ((real_type)rand()) / RAND_MAX;
+    return rand() / ((real_type)RAND_MAX+1);
 }
 
 real_type RandomNumber(real_type min, real_type max)

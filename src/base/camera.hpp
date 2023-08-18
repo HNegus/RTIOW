@@ -7,7 +7,7 @@
 #include "image.hpp"
 
 struct CameraSpec {
-    real_type aspect_ratio = 16 / 9.0;
+    real_type aspect_ratio = 16 / 9.0f;
     real_type focal_length = 1.0;
     real_type vfov = 90.0;
 
@@ -53,7 +53,7 @@ private:
 
     CameraDetails m_details;
 
-    Ray GetRay(int i, int j) const;
+    Ray GetRay(uint32_t i, uint32_t j) const;
     Vec3 GetSample() const;
     Point3 DefocusDiskSample() const;
     Color RayColor(const Ray& ray, const EntityList& world, uint32_t depth);

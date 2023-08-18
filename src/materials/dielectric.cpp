@@ -15,11 +15,11 @@ bool Dielectric::Scatter(const Ray& in, const HitRecord& record,
     }
 #endif
 
-    real_type refraction_ratio = record.front_facing ? (1.0/ior) : ior;
+    real_type refraction_ratio = record.front_facing ? (1.0f/ior) : ior;
     Vec3 unit_direction = in.direction.Unit();
 
-    real_type cos_theta = fmin(-unit_direction.Dot(record.normal), 1.0);
-    real_type sin_theta = sqrt(1.0 - cos_theta*cos_theta);
+    real_type cos_theta = static_cast<real_type>(fmin(-unit_direction.Dot(record.normal), 1.0));
+    real_type sin_theta = static_cast<real_type>(sqrt(1.0f - cos_theta*cos_theta));
 
     bool cannot_refract = refraction_ratio * sin_theta > 1.0;
     Vec3 direction;
@@ -37,5 +37,5 @@ real_type Dielectric::Reflectance(real_type cosine, real_type ref_idx)
 {
     real_type r0 = (1 - ref_idx) / (1 + ref_idx);
     r0 = r0 * r0;
-    return r0 + (1 - r0) * pow((1 - cosine), 5);
+    return r0 + (1 - r0) * static_cast<real_type>(pow((1 - cosine), 5));
 }

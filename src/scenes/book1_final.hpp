@@ -20,26 +20,26 @@ public:
         cam.max_bounces = 50;
 
         cam.vfov = 20;
-        cam.position = Point3(13, 2, 3);
-        cam.lookat = Point3(0, 0, 0);
+        cam.position = Point3(13.0f, 2.0f, 3.0f);
+        cam.lookat = Point3(0.0f, 0.0f, 0.0f);
 
-        cam.defocus_angle = 0.6;
-        cam.focus_dist = 10.0;
+        cam.defocus_angle = 0.6f;
+        cam.focus_dist = 10.0f;
 
         m_camera.Bake();
     }
 
     void BuildWorld()
     {
-        std::shared_ptr<Material> ground_material = std::make_shared<Lambertian>(Color(0.5, 0.5, 0.5));
-        m_world.Add(std::make_shared<Sphere>(Point3(0, -1000, 0), 1000, ground_material));
+        std::shared_ptr<Material> ground_material = std::make_shared<Lambertian>(Color(0.5f, 0.5f, 0.5f));
+        m_world.Add(std::make_shared<Sphere>(Point3(0.0f, -1000.0f, 0.0f), 1000, ground_material));
 
         for (int a = -11; a < 11; a++) {
             for (int b = -11; b < 11; b++) {
                 real_type choose_mat = RandomReal();
-                Point3 center(a + 0.9 * RandomReal(), 0.2, b + 0.9 * RandomReal());
+                Point3 center(a + 0.9f * RandomReal(), 0.2f, b + 0.9f * RandomReal());
 
-                if ((center - Point3(4, 0.2, 0)).Length() > 0.9) {
+                if ((center - Point3(4.0f, 0.2f, 0.0f)).Length() > 0.9f) {
                     std::shared_ptr<Material> sphere_material;
 
                     if (choose_mat < 0.8) {
@@ -62,14 +62,14 @@ public:
             }
         }
 
-        std::shared_ptr<Material> material1 = std::make_shared<Dielectric>(1.5);
-        m_world.Add(std::make_shared<Sphere>(Point3(0, 1, 0), 1.0, material1));
+        std::shared_ptr<Material> material1 = std::make_shared<Dielectric>(1.5f);
+        m_world.Add(std::make_shared<Sphere>(Point3(0.0f, 1.0f, 0.0f), 1.0f, material1));
 
-        std::shared_ptr<Material> material2 = std::make_shared<Lambertian>(Color(0.4, 0.2, 0.1));
-        m_world.Add(std::make_shared<Sphere>(Point3(-4, 1, 0), 1.0, material2));
+        std::shared_ptr<Material> material2 = std::make_shared<Lambertian>(Color(0.4f, 0.2f, 0.1f));
+        m_world.Add(std::make_shared<Sphere>(Point3(-4.0f, 1.0f, 0.0f), 1.0f, material2));
 
-        std::shared_ptr<Material> material3 = std::make_shared<Metal>(Color(0.7, 0.6, 0.5), 0.0);
-        m_world.Add(std::make_shared<Sphere>(Point3(4, 1, 0), 1.0, material3));
+        std::shared_ptr<Material> material3 = std::make_shared<Metal>(Color(0.7f, 0.6f, 0.5f), 0.0f);
+        m_world.Add(std::make_shared<Sphere>(Point3(4.0f, 1.0f, 0.0f), 1.0f, material3));
     }
 
     void Show() override

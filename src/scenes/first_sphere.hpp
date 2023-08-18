@@ -8,12 +8,12 @@ class FirstSphere : public Scene {
 public:
     FirstSphere()
     {
-        std::shared_ptr<Material> material = std::make_shared<Diffuse>(0.5);
+        std::shared_ptr<Material> material = std::make_shared<Diffuse>(0.5f);
 
-        m_world.Add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5, material));
-        m_world.Add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100, material));
+        m_world.Add(std::make_shared<Sphere>(Point3(0.0f, 0.0f, -1.0f), 0.5f, material));
+        m_world.Add(std::make_shared<Sphere>(Point3(0.0f, -100.5f, -1.0f), 100.0f, material));
 
-        m_camera.spec.position = Vec3(0, 0, 0.0001);
+        m_camera.spec.position = Vec3(0.0f, 0.0f, 0.0001f);
         m_camera.spec.image_width = 800;
         m_camera.Bake();
     }

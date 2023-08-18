@@ -17,8 +17,8 @@ void Camera::Bake()
     m_image.samples_per_pixel = spec.samples_per_pixel;
     m_image.Resize();
 
-    real_type h = tan(DegToRad(spec.vfov)/2);
-    m_details.viewport_height = 2.0 * h * spec.focus_dist;
+    real_type h = static_cast<real_type>(tan(DegToRad(spec.vfov)/2));
+    m_details.viewport_height = 2.0f * h * spec.focus_dist;
     m_details.viewport_width = m_details.viewport_height;
     m_details.viewport_width *= (static_cast<real_type>(spec.image_width) / spec.image_height);
 
@@ -37,7 +37,7 @@ void Camera::Bake()
     m_details.pixel00_loc = m_details.viewport_upper_left
         + 0.5 * (m_details.pixel_dx + m_details.pixel_dy);
 
-    real_type defocus_radius = spec.focus_dist * tan(DegToRad(spec.defocus_angle / 2));
+    real_type defocus_radius = spec.focus_dist * static_cast<real_type>(tan(DegToRad(spec.defocus_angle / 2)));
     m_details.defocus_disk_u = m_details.u * defocus_radius;
     m_details.defocus_disk_v = m_details.v * defocus_radius;
     return;
@@ -45,9 +45,9 @@ void Camera::Bake()
 
 void Camera::Render(const EntityList& world)
 {
-    for (size_t j = 0; j < spec.image_height; j++) {
+    for (uint32_t j = 0; j < spec.image_height; j++) {
         std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;
-        for (size_t i = 0; i < spec.image_width; i++) {
+        for (uint32_t i = 0; i < spec.image_width; i++) {
             for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
                 Ray ray = GetRay(i, j);
                 m_image[j][i] += RayColor(ray, world, spec.max_bounces);
@@ -58,7 +58,7 @@ void Camera::Render(const EntityList& world)
     m_image.ToPPM();
 }
 
-Ray Camera::GetRay(int i, int j) const
+Ray Camera::GetRay(uint32_t i, uint32_t j) const
 {
     Vec3 pixel_center = m_details.pixel00_loc
                         + (i * m_details.pixel_dx)
@@ -71,8 +71,8 @@ Ray Camera::GetRay(int i, int j) const
 
 Vec3 Camera::GetSample() const
 {
-    real_type px = -0.5 + RandomReal();
-    real_type py = -0.5 + RandomReal();
+    real_type px = -0.5f + RandomReal();
+    real_type py = -0.5f + RandomReal();
     return (px * m_details.pixel_dx) + (py * m_details.pixel_dy);
 }
 
@@ -90,7 +90,7 @@ Color Camera::RayColor(const Ray& ray, const EntityList& world, uint32_t depth)
     }
 
     HitRecord record {};
-    Interval interval(0.001, infinity);
+    Interval interval(0.001f, infinity);
 
     if (world.Hit(ray, interval, record)) {
         Color attenuation{};

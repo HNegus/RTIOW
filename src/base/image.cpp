@@ -20,7 +20,7 @@ void Image::ToPPM()
     std::cout << width << " " << height << std::endl;
     std::cout << 255 << std::endl;
 
-    Interval intensity(0.0, 0.999999);
+    Interval intensity(0.0f, 0.999999f);
     for (size_t i = 0; i < height; i++) {
         for (size_t j = 0; j < width; j++) {
             Color c = intensity.Clamp(m_pixels[i][j] / samples_per_pixel);

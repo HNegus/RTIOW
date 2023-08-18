@@ -18,6 +18,16 @@ target_compile_options(raytrace PRIVATE
     -Wfloat-conversion
     )
 
+# if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+#     target_compile_options(raytrace PRIVATE
+#         -Wfloat-conversion
+#     )
+# elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+#     target_compile_options(raytrace PRIVATE
+#         -Wint-in-bool-context
+#     )
+# endif()
+
 target_link_options(raytrace PRIVATE
     -fsanitize=address
     )
