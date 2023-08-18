@@ -29,7 +29,7 @@ public:
 
     virtual ~Entity() = default;
 
-    virtual bool Hit(const Ray& ray, Interval interval,
+    virtual bool ClosestHit(const Ray& ray, Interval interval,
                      HitRecord& record) const = 0;
 
 public:

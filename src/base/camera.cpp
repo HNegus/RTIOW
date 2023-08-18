@@ -51,8 +51,8 @@ void Camera::Render(const EntityList& world)
             for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
                 Ray ray = GetRay(i, j);
                 m_image[j][i] += RayColor(ray, world, spec.max_bounces);
-                }
             }
+        }
     }
 
     m_image.ToPPM();
@@ -92,7 +92,7 @@ Color Camera::RayColor(const Ray& ray, const EntityList& world, uint32_t depth)
     HitRecord record {};
     Interval interval(0.001f, infinity);
 
-    if (world.Hit(ray, interval, record)) {
+    if (world.ClosestHit(ray, interval, record)) {
         Color attenuation{};
         Ray scattered{};
         if (record.material->Scatter(ray, record, attenuation, scattered)) {

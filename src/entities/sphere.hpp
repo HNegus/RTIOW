@@ -12,7 +12,7 @@ public:
         m_radius{radius},
         m_material{material}
     {};
-    bool Hit(const Ray& ray, Interval interval, HitRecord& record) const override;
+    bool ClosestHit(const Ray& ray, Interval interval, HitRecord& record) const override;
 
 private:
     Point3 m_center;
