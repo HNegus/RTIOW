@@ -15,6 +15,7 @@ target_include_directories(raytrace PRIVATE src)
 target_compile_options(raytrace PRIVATE
     -Wall -Wextra -Wpedantic
     -fsanitize=address
+    -Wfloat-conversion
     )
 
 target_link_options(raytrace PRIVATE

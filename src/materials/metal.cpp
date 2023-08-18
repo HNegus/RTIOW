@@ -10,5 +10,7 @@ bool Metal::Scatter(const Ray& in, const HitRecord& record,
     attenuation = albedo;
 
     // Check to see if we ended up inside the surface
-    return out.direction.Dot(record.normal);
+    // Absorb ray if that is the case.
+    // Possible because of the way we add fuzziness.
+    return out.direction.Dot(record.normal) > 0;
 }
