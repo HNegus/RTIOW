@@ -50,9 +50,9 @@ struct Vec3 {
         value_type v[3];
     };
 
-    Vec3(value_type all) : x{all}, y{all}, z{all} {}
-    Vec3(value_type a, value_type b, value_type c) : x{a}, y{b}, z{c} {}
-    Vec3() : Vec3(0, 0, 0) {}
+    explicit Vec3(value_type a, value_type b, value_type c) : x{a}, y{b}, z{c} {}
+    Vec3(value_type all) : Vec3(all, all, all) {}
+    Vec3() : Vec3(0) {}
 
     Vec3 operator-() const { return Vec3(-x, -y, -z); }
     value_type operator[](int i) const {

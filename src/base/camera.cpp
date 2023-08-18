@@ -51,6 +51,7 @@ void Camera::Bake()
 
 void Camera::Render(const EntityList& world)
 {
+    // TODO: clean
 #define THREADS
 #ifndef THREADS
     for (uint32_t j = 0; j < spec.image_height; j++) {
