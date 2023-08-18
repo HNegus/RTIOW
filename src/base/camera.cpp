@@ -51,7 +51,7 @@ void Camera::Bake()
 
 void Camera::Render(const EntityList& world)
 {
-// #define THREADS
+#define THREADS
 #ifndef THREADS
     for (uint32_t j = 0; j < spec.image_height; j++) {
         std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;

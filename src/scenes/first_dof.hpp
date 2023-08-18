@@ -22,9 +22,9 @@ public:
         m_world.Add(std::make_shared<Sphere>(Point3(1.0f, 0.0f, -1.0f), 0.5f, material_right));
 
 
-        m_camera.spec.image_width = 400;
+        m_camera.spec.image_width = 800;
         m_camera.spec.samples_per_pixel = 10;
-        m_camera.spec.max_bounces = 50;
+        m_camera.spec.max_bounces = 10;
         m_camera.spec.vfov = 20;
 
         m_camera.spec.position = Point3(-2.0f, 2, 1.0f);

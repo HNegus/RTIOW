@@ -14,8 +14,12 @@ target_include_directories(raytrace PRIVATE src)
 
 target_compile_options(raytrace PRIVATE
     -Wall -Wextra -Wpedantic
-    -fsanitize=address
+    # -fsanitize=address
     -Wfloat-conversion
+    )
+
+target_link_libraries(raytrace PUBLIC
+    tbb
     )
 
 # if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -29,7 +33,7 @@ target_compile_options(raytrace PRIVATE
 # endif()
 
 target_link_options(raytrace PRIVATE
-    -fsanitize=address
+    # -fsanitize=address
     )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
