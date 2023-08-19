@@ -37,8 +37,9 @@ Vec3 sqrt(Vec3 v);
     #pragma warning(disable: 4201)  // nonstandard extension used : nameless struct/union
 #endif
 
+#define RTA_USE_SIMD
 #ifdef RTA_USE_SIMD
-struct alignas(16) Vec3 {
+struct alignas(8) Vec3 {
 #else
 struct Vec3 {
 #endif

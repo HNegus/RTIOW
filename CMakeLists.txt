@@ -18,7 +18,7 @@ target_compile_options(raytrace PRIVATE
     -Wall -Wextra -Wpedantic
     -Wfloat-conversion
     # -fsanitize=address
-    # -ffast-math
+    -ffast-math
     )
 
 target_link_libraries(raytrace PUBLIC

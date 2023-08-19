@@ -15,8 +15,8 @@ public:
 
         auto& cam = m_camera.spec;
 
-        cam.image_width = 1200;
-        cam.samples_per_pixel = 500;
+        cam.image_width = 6709;
+        cam.samples_per_pixel = 250;
         cam.max_bounces = 50;
 
         cam.vfov = 20;
