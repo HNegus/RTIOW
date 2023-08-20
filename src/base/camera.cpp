@@ -51,9 +51,7 @@ void Camera::Bake()
 
 void Camera::Render(const EntityList& world)
 {
-    // TODO: clean
-#define THREADS
-#ifndef THREADS
+#ifndef RTA_ENABLE_THREADS
     for (uint32_t j = 0; j < spec.image_height; j++) {
         std::clog << "Scanlines remaining: " << spec.image_height - j << std::endl;
         for (uint32_t i = 0; i < spec.image_width; i++) {
@@ -68,7 +66,7 @@ void Camera::Render(const EntityList& world)
     std::iota(rowidx.begin(), rowidx.end(), 1);
     std::atomic<int> done{0};
 
-    std::for_each(std::execution::par, rowidx.begin(), rowidx.end(), [&](int j) {
+    std::for_each(std::execution::par, rowidx.begin(), rowidx.end(), [&](const int& j) {
         std::clog << "Scanlines remaining: " << spec.image_height - done.fetch_add(1) << std::endl;
         for (uint32_t i = 0; i < spec.image_width; i++) {
             for (uint32_t s = 0; s < spec.samples_per_pixel; s++) {
