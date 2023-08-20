@@ -87,7 +87,8 @@ Ray Camera::GetRay(uint32_t i, uint32_t j) const
     Vec3 sample_vector = pixel_center + GetSample();
     Vec3 ray_origin = (spec.defocus_angle <= 0) ? spec.position : DefocusDiskSample();
     Vec3 ray_direction = sample_vector - ray_origin;
-    return Ray(ray_origin, ray_direction);
+    real_type ray_time = RandomReal();
+    return Ray(ray_origin, ray_direction, ray_time);
 }
 
 Vec3 Camera::GetSample() const

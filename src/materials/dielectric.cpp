@@ -6,6 +6,7 @@ bool Dielectric::Scatter(const Ray& in, const HitRecord& record,
     Color& attenuation, Ray& out) const
 {
     attenuation = albedo;
+// TODO remove?
 #ifdef REFRACT
     bool reflect = RandomReal() < 0.5;
     if (reflect) {
@@ -29,7 +30,7 @@ bool Dielectric::Scatter(const Ray& in, const HitRecord& record,
         direction = unit_direction.Refract(record.normal, refraction_ratio);
     }
 
-    out = Ray(record.position, direction);
+    out = Ray(record.position, direction, in.time);
     return true;
 }
 

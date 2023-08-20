@@ -23,9 +23,11 @@
 #include "scenes/correct_dielectric.hpp"
 #include "scenes/first_dof.hpp"
 #include "scenes/book1_final.hpp"
+#include "scenes/first_moving.hpp"
 
 int main(int, char**)
 {
+    /* Book 1 */
     // FirstSphere scene;
     // FirstMaterials scene;
     // FirstFOV scene;
@@ -34,7 +36,10 @@ int main(int, char**)
     // FirstDielectric scene;
     // CorrectDielectric scene;
     // FirstDOF scene;
-    Book1Final scene;
+    // Book1Final scene;
+
+    /* Book 2 */
+    FirstMoving scene;
 
     scene.Show();
 }

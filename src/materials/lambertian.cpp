@@ -7,7 +7,7 @@ bool Diffuse::Scatter([[maybe_unused]] const Ray& in, const HitRecord& record,
 {
     const Vec3 scatter_direction = Vec3::RandomOnHemisphere(record.normal);
     attenuation = albedo;
-    out = Ray(record.position, scatter_direction);
+    out = Ray(record.position, scatter_direction, in.time);
     return true;
 }
 
@@ -20,6 +20,6 @@ bool Lambertian::Scatter([[maybe_unused]] const Ray& in, const HitRecord& record
         scatter_direction = record.normal;
     }
     attenuation = albedo;
-    out = Ray(record.position, scatter_direction);
+    out = Ray(record.position, scatter_direction, in.time);
     return true;
 }

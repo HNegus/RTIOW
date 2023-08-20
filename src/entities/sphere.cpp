@@ -35,3 +35,9 @@ bool Sphere::ClosestHit(const Ray& ray, Interval interval, HitRecord& record) co
 
     return true;
 }
+
+bool MovingSphere::ClosestHit(const Ray& ray, Interval interval, HitRecord& record) const
+{
+    m_center = m_original_center + ray.time*m_center_displacement;
+    return Sphere::ClosestHit(ray, interval, record);
+}
