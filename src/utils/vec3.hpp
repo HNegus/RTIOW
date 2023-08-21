@@ -167,9 +167,9 @@ struct Vec3 {
 
     static Vec3 Random(real_type min, real_type max)
     {
-        return Vec3(RandomNumber(min, max),
-                    RandomNumber(min, max),
-                    RandomNumber(min, max));
+        return Vec3(RandomReal(min, max),
+                    RandomReal(min, max),
+                    RandomReal(min, max));
     }
 
     static Vec3 RandomUnit()
@@ -194,7 +194,7 @@ struct Vec3 {
     static Vec3 RandomInUnitDisk()
     {
         while (true) {
-            Vec3 p = Vec3(RandomNumber(-1, 1), RandomNumber(-1, 1), 0);
+            Vec3 p = Vec3(RandomReal(-1, 1), RandomReal(-1, 1), 0);
             if (p.Dot(p) < 1) {
                 return p;
             }

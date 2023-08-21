@@ -2,6 +2,7 @@
 #pragma once
 #include "scene.hpp"
 
+#include "entities/sphere.hpp"
 #include "materials/lambertian.hpp"
 
 class FirstSphere : public Scene {

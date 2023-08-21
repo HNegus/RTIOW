@@ -4,6 +4,7 @@
 
 #include "utils/ray.hpp"
 #include "utils/interval.hpp"
+#include "utils/aabb.hpp"
 
 struct Material;
 
@@ -26,11 +27,12 @@ struct HitRecord {
 
 class Entity {
 public:
+    AABB bounding_box;
 
     virtual ~Entity() = default;
 
-    virtual bool ClosestHit(const Ray& ray, Interval interval,
+    virtual bool Hit(const Ray& ray, Interval interval,
                      HitRecord& record) const = 0;
 
-public:
+    virtual const AABB& BoundingBox() const = 0;
 };

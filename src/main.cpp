@@ -1,19 +1,3 @@
-#include <iostream>
-
-#include "base/image.hpp"
-
-#include "utils/debug.hpp"
-
-#include "entities/sphere.hpp"
-
-#include "entities/entity_list.hpp"
-
-#include "base/camera.hpp"
-
-#include "materials/lambertian.hpp"
-#include "materials/material.hpp"
-#include "materials/metal.hpp"
-
 #include "scenes/first_sphere.hpp"
 #include "scenes/first_materials.hpp"
 #include "scenes/first_fov.hpp"
@@ -23,7 +7,9 @@
 #include "scenes/correct_dielectric.hpp"
 #include "scenes/first_dof.hpp"
 #include "scenes/book1_final.hpp"
+
 #include "scenes/first_moving.hpp"
+#include "scenes/complex_moving.hpp"
 
 int main(int, char**)
 {
@@ -39,7 +25,8 @@ int main(int, char**)
     // Book1Final scene;
 
     /* Book 2 */
-    FirstMoving scene;
+    // FirstMoving scene;
+    ComplexMoving scene;
 
     scene.Show();
 }

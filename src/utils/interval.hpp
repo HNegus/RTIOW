@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.hpp"
+#include "vec3.hpp"
 
 class Interval {
 public:
@@ -9,6 +10,9 @@ public:
     // Default interval is empty/invalid.
     Interval() : min{+infinity}, max{-infinity} {};
     Interval(real_type _min, real_type _max) : min{_min}, max{_max} {};
+    Interval(const Interval& first, const Interval& second)
+        : Interval(fmin(first.min, second.min), fmax(first.max, second.max))
+    {}
 
     inline bool Contains(real_type x) const
     {
@@ -30,6 +34,13 @@ public:
     inline Vec3 Clamp(Vec3 v) const
     {
         return Vec3(Clamp(v.x), Clamp(v.y), Clamp(v.z));
+    }
+
+    void Pad(real_type padding)
+    {
+        padding /= 2;
+        min -= padding;
+        max += padding;
     }
 
     static const Interval empty;

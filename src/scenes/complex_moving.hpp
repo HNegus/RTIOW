@@ -7,18 +7,19 @@
 #include "materials/lambertian.hpp"
 #include "materials/metal.hpp"
 
-class Book1Final : public Scene {
-public:
-    Book1Final()
-    {
+#include "entities/bvh.hpp"
 
+class ComplexMoving : public Scene {
+public:
+    ComplexMoving()
+    {
         BuildWorld();
 
         auto& cam = m_camera.spec;
 
-        cam.image_width = 6709;
-        cam.samples_per_pixel = 250;
-        cam.max_bounces = 50;
+        cam.image_width = 1080;
+        cam.samples_per_pixel = 20;
+        cam.max_bounces = 20;
 
         cam.vfov = 20;
         cam.position = Point3(13.0f, 2.0f, 3.0f);
@@ -47,7 +48,8 @@ public:
                         // diffuse
                         Color albedo = Vec3::Random() * Vec3::Random();
                         sphere_material = std::make_shared<Lambertian>(albedo);
-                        m_world.Add(std::make_shared<Sphere>(center, 0.2, sphere_material));
+                        Vec3 displaced_center = center + Vec3(0, RandomReal(0, 0.5), 0);
+                        m_world.Add(std::make_shared<MovingSphere>(center, displaced_center, 0.2, sphere_material));
                     } else if (choose_mat < 0.95) {
                         // metal
                         Color albedo = Vec3::Random(0.5, 1);
@@ -71,6 +73,7 @@ public:
 
         std::shared_ptr<Material> material3 = std::make_shared<Metal>(Color(0.7f, 0.6f, 0.5f), 0.0f);
         m_world.Add(std::make_shared<Sphere>(Point3(4.0f, 1.0f, 0.0f), 1.0f, material3));
+        m_world = EntityList(std::make_shared<BVH_Node>(m_world));
     }
 
     void Show() override

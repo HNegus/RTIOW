@@ -122,7 +122,7 @@ Color Camera::RayColor(Ray ray, const EntityList& world, uint32_t depth)
     while (depth > 0) {
         depth -= 1;
 
-        if (world.ClosestHit(ray, interval, record)) {
+        if (world.Hit(ray, interval, record)) {
             if (record.material->Scatter(ray, record, attenuation, scattered)) {
                 final_color *= attenuation;
                 ray = scattered;

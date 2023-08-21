@@ -1,6 +1,6 @@
 #include "sphere.hpp"
 
-bool Sphere::ClosestHit(const Ray& ray, Interval interval, HitRecord& record) const
+bool Sphere::Hit(const Ray& ray, Interval interval, HitRecord& record) const
 {
     Vec3 camera_position = ray.origin - m_center;
 
@@ -36,8 +36,8 @@ bool Sphere::ClosestHit(const Ray& ray, Interval interval, HitRecord& record) co
     return true;
 }
 
-bool MovingSphere::ClosestHit(const Ray& ray, Interval interval, HitRecord& record) const
+bool MovingSphere::Hit(const Ray& ray, Interval interval, HitRecord& record) const
 {
     m_center = m_original_center + ray.time*m_center_displacement;
-    return Sphere::ClosestHit(ray, interval, record);
+    return Sphere::Hit(ray, interval, record);
 }
