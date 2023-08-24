@@ -18,6 +18,7 @@ public:
 private:
     std::shared_ptr<Entity> left = nullptr, right = nullptr;
 
+    // TODO: refactor
     static bool Compare(const std::shared_ptr<Entity> a,
                         const std::shared_ptr<Entity> b,
                         uint32_t index)

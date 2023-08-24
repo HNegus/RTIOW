@@ -36,6 +36,11 @@ public:
         return Vec3(Clamp(v.x), Clamp(v.y), Clamp(v.z));
     }
 
+    inline real_type Size() const
+    {
+        return max - min;
+    }
+
     void Pad(real_type padding)
     {
         padding /= 2;

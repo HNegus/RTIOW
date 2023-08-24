@@ -5,6 +5,9 @@
 
 class AABB {
 public:
+
+    static const AABB empty, universe;
+
     Interval x, y, z;
 
     AABB() = default;
@@ -21,8 +24,19 @@ public:
         , y{Interval(first.y, second.y)}
         , z{Interval(first.z, second.z)}
     {}
+    AABB(const Interval& interval)
+        : AABB(interval, interval, interval)
+    {}
 
     bool Hit(const Ray& ray, Interval ray_t) const;
+
+    uint32_t LongestAxis() const
+    {
+        if (x.Size() > y.Size()) {
+            return x.Size() > z.Size() ? 0 : 2;
+        }
+        return y.Size() > z.Size() ? 1 : 2;
+    }
 
     const Interval& operator[](size_t i) const
     {
@@ -36,3 +50,5 @@ public:
     }
 
 };
+
+inline const AABB AABB::empty(Interval::empty), AABB::universe(Interval::universe);
