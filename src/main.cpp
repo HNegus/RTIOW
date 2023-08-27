@@ -22,11 +22,11 @@ int main(int, char**)
     // FirstDielectric scene;
     // CorrectDielectric scene;
     // FirstDOF scene;
-    // Book1Final scene;
+    Book1Final scene;
 
     /* Book 2 */
     // FirstMoving scene;
-    ComplexMoving scene;
+    // ComplexMoving scene;
 
     scene.Show();
 }
