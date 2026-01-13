@@ -2,6 +2,7 @@
 
 Toy raytracer based on the [Ray Tracing in One Weekend Series](https://raytracing.github.io/).
 
+
 ## Installation
 
 Tested on Ubuntu 22.4
