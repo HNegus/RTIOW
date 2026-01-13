@@ -1,6 +1,5 @@
 # RTIOW
 
-Toy raytracer based on the [Ray Tracing in One Weekend Series](https://raytracing.github.io/).
 
 ## Installation
 
