@@ -1,10 +1,5 @@
 # RTIOW
 
-
-## Installation
-
-Tested on Ubuntu 22.4
-
 ```bash
 mkdir build
 cmake -B build -S .
